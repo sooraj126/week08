@@ -137,7 +137,6 @@ jobs:
     # Build and Push Docker image for Product Service
     - name: Build and Push Product Service Image
       if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch' }}
-
       run: |
         docker build -t ${{ env.ACR_LOGIN_SERVER }}/product_service:latest ./backend/product_service/
         docker push ${{ env.ACR_LOGIN_SERVER }}/product_service:latest
@@ -145,7 +144,6 @@ jobs:
     # Build and Push Docker image for Order Service
     - name: Build and Push Order Service Image
       if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch' }}
-
       run: |
         docker build -t ${{ env.ACR_LOGIN_SERVER }}/order_service:latest ./backend/order_service/
         docker push ${{ env.ACR_LOGIN_SERVER }}/order_service:latest

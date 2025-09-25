@@ -11,6 +11,13 @@ on:
       - 'frontend/**'
       - '.github/workflows/frontend_ci.yml'
 
+  pull_request:
+   branches: [development, main]
+   paths:
+     - 'frontend/**'
+     - '.github/workflows/frontend_ci.yml'
+
+
   # Automatically on pushes to main branch
   push:
     branches:
