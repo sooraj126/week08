@@ -18,12 +18,17 @@ on:
 ################################################################################
   workflow_run:
     workflows: ["Backend CI - Test, Build and Push Images to ACR"]
+
+
     types: [completed]  
+
 
 jobs:
   deploy_backend:
     runs-on: ubuntu-latest
+
     if: ${{ github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main') }}
+
     environment: Production
     
     outputs:
@@ -42,11 +47,14 @@ jobs:
 
       - name: Set Kubernetes context (get AKS credentials)
         run: |
+
+
           az aks get-credentials --resource-group "${{ vars.AKS_RESOURCE_GROUP }}" --name "${{ vars.AKS_CLUSTER_NAME }}" --overwrite-existing    
 
       - name: Attach ACR
         run: |
           az aks update --name "${{ vars.AKS_CLUSTER_NAME }}" --resource-group "${{ vars.AKS_RESOURCE_GROUP }}" --attach-acr "${{ vars.ACR_NAME }}"
+
 
       - name: Deploy Backend Infrastructure (Namespace, ConfigMaps, Secrets, Databases)
         run: |
@@ -104,3 +112,5 @@ jobs:
 
       - name: Logout from Azure
         run: az logout
+
+        #Adding a line to trigger the code...
