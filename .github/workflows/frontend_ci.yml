@@ -13,6 +13,9 @@ on:
     paths: # Only trigger if changes are in the frontend directory
       - 'frontend/**'
       - '.github/workflows/frontend_ci.yml' # Trigger if this workflow file changes
+  workflow_run:
+    workflows: ["CD - Deploy Backend Services to AKS"]
+    types: [completed]
 
 # Define global environment variables that can be used across jobs
 env:
@@ -26,6 +29,8 @@ env:
 jobs:
   build_and_push_frontend:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main') }}
+
 
     steps:
     - name: Checkout repository
